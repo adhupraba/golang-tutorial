@@ -10,7 +10,9 @@ type nextCh chan int
 
 func (ch nextCh) handler(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("handler func", req.URL.Path)
-	fmt.Fprintf(w, "<h1>You got %d</h1>", <-ch)
+	num := <-ch
+	fmt.Println("read from channel:", num)
+	fmt.Fprintf(w, "<h1>You got %d</h1>", num)
 }
 
 // ch chan <- int    ----- write into channel

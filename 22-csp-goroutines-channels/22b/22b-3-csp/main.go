@@ -28,6 +28,8 @@ func filter(src <-chan int, dst chan<- int, prime int) {
 		if i%prime != 0 {
 			fmt.Printf("######### src = %#v, dst = %#v, prime = %v, pushing i = %v into dst channel #########\n", src, dst, prime, i)
 			dst <- i
+		} else {
+			fmt.Printf("i = %v is not a prime number (curr prime = %v)", i, prime)
 		}
 	}
 
@@ -42,7 +44,12 @@ func sieve(limit int) {
 
 	go generator(limit, src)
 
+	count := 0
+
 	for {
+		count += 1
+		fmt.Printf("********** sieve for loop iteration number %v **********\n", count)
+
 		// prime - value, ok - boolean (is the channel closed or not)
 		prime, ok := <-src
 
